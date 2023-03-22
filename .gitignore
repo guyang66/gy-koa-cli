@@ -1,0 +1,15 @@
+logs
+*.log
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+.grunt
+.lock-wscript
+build/Release
+node_modules
+play
+.DS_Store
+.vscode
+package-lock.json

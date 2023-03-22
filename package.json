@@ -1,0 +1,26 @@
+{
+  "name": "gy-koa-cli",
+  "version": "1.0.0",
+  "description": "a generator for koa application",
+  "main": "bin/init.js",
+  "scripts": {
+    "start": "npm publish ."
+  },
+  "preferGlobal": true,
+  "bin": {
+    "gy-koa": "bin/init"
+  },
+  "author": "goyoung",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^10.0.0",
+    "inquirer": "^8.2.5",
+    "mkdirp": "^2.1.5"
+  },
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2"
+  }
+}
