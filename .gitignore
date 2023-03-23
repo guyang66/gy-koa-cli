@@ -13,3 +13,4 @@ play
 .DS_Store
 .vscode
 package-lock.json
+.idea

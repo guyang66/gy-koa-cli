@@ -1,0 +1,14 @@
+{
+  "port": "8090",
+  "log": {
+    "rootPath": "./logs",
+    "prdRootPath": ""
+  },
+  "mongodb": {
+    "servername": "localhost",
+    "database": "test",
+    "port": 27017,
+    "user": "",
+    "pass": ""
+  }
+}

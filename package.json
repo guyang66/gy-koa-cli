@@ -1,14 +1,18 @@
 {
   "name": "gy-koa-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a generator for koa application",
   "main": "bin/init.js",
+  "keywords": [
+    "koa",
+    "generator"
+  ],
   "scripts": {
     "start": "npm publish ."
   },
   "preferGlobal": true,
   "bin": {
-    "gy-koa": "bin/init"
+    "gy-koa": "bin/init.js"
   },
   "author": "goyoung",
   "license": "MIT",

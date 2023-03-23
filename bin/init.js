@@ -26,7 +26,7 @@ async function main () {
     let p1 = await inquirer.prompt([
       {
         type: 'input',
-        message: '请输入项目名字',
+        message: 'input your application name',
         name: 'appName'
       }
     ])
@@ -38,15 +38,18 @@ async function main () {
     // return
   }
 
+  // 输出完整目录
+  targetPath = path.resolve(process.cwd(),targetPath)
+
   let appName = path.basename(path.resolve(targetPath));
   let p2 = await inquirer.prompt([
     {
       type: 'list',
-      message: '使用什么数据库？',
+      message: 'need database？',
       choices: [
         'mongodb',
         'mysql',
-        '不使用数据库'
+        'no database'
       ],
       name: 'database'
     }
@@ -55,10 +58,10 @@ async function main () {
   let p3 = await inquirer.prompt([
     {
       type: 'list',
-      message: '是否需要模板引擎？',
+      message: 'need template engine ?',
       choices: [
         'ejs',
-        '不需要'
+        'no engine'
       ],
       name: 'template'
     }
@@ -67,7 +70,7 @@ async function main () {
   let p4 = await inquirer.prompt([
     {
       type: 'input',
-      message: '自动生成gitignore?Y/N',
+      message: 'need .gitignore? Y/N',
       name: 'gitignore'
     }
   ])
@@ -75,7 +78,7 @@ async function main () {
   let p5 = await inquirer.prompt([
     {
       type: 'input',
-      message: '自动生成README?Y/N',
+      message: 'need README.md? Y/N',
       name: 'readme'
     }
   ])
