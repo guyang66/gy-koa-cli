@@ -35,7 +35,7 @@ async function main () {
 
   if(getFileStat(targetPath)){
     console.log(targetPath, chalk.red('目标目录已经存在文件，无法继续创建，请尝试更换目录或应用名称！'))
-    // return
+    return
   }
 
   // 输出完整目录
@@ -98,54 +98,53 @@ async function main () {
 async function create ({appName, targetPath, database, template, gitignore, readme}) {
   // 创建应用目录
   await createDirectory(targetPath)
-  // 创建app.js 和config.json
+  // 创建 app.js
   let appjs =  loadFile('app.js')
   writeFile(path.join(targetPath, 'app.js'), appjs)
 
-  // 创建application
-  // todo mkdirp 有权限
+  // 创建 application
   await createDirectory(path.join(targetPath, 'application'))
   let application_index = loadFile('application/index.js')
   let application_loader = loadFile('application/loader.js')
 
-  // 创建base目录
+  // 创建 base目录
   await createDirectory(path.join(targetPath, 'base'))
   let bass_class = loadFile('base/BaseClass.js')
   writeFile(path.join(targetPath, 'base/BaseClass.js'), bass_class)
   let map_class = loadFile('base/MapClass.js')
   writeFile(path.join(targetPath, 'base/MapClass.js'), map_class)
 
-  // 创建controller目录
+  // 创建 controller目录
   await createDirectory(path.join(targetPath, 'controller'))
   let userController = loadFile('controller/UserController.js')
   writeFile(path.join(targetPath, 'controller/UserController.js'), userController)
 
-  // 创建server目录
+  // 创建 server目录
   await createDirectory(path.join(targetPath, 'service'))
   let userService = loadFile('service/UserService.js')
   writeFile(path.join(targetPath, 'service/UserService.js'), userService)
 
-  // 创common目录
+  // 创建 common目录
   await createDirectory(path.join(targetPath, 'common'))
   let log4 = loadFile('common/log4.js')
   writeFile(path.join(targetPath, 'common/log4.js'), log4)
 
-  // 创extends目录
+  // 创建 extends目录
   await createDirectory(path.join(targetPath, 'extends'))
   let helper = loadFile('extends/helper.js')
   writeFile(path.join(targetPath, 'extends/helper.js'), helper)
 
-  // 创middleware目录
+  // 创建 middleware目录
   await createDirectory(path.join(targetPath, 'middleware'))
   let middleware = loadFile('middleware/middleware.js')
   writeFile(path.join(targetPath, 'middleware/middleware.js'), middleware)
 
-  // 创routes目录
+  // 创建 routes目录
   await createDirectory(path.join(targetPath, 'routes'))
   let routes = loadFile('routes/index.js')
   writeFile(path.join(targetPath, 'routes/index.js'), routes)
 
-  // 创建schedule
+  // 创建 schedule目录
   await createDirectory(path.join(targetPath, 'schedule'))
   let schedule = loadFile('schedule/schedule.js')
   writeFile(path.join(targetPath, 'schedule/schedule.js'), schedule)
@@ -288,8 +287,9 @@ async function create ({appName, targetPath, database, template, gitignore, read
 
   // readme
   if(readme === '' || readme.toLowerCase() === 'y'){
+    let readme_md =  loadFile('README.MD')
     let doc = '### ' + appName + eol + 'this is a application created by gy-koa-cli'
-    writeFile(path.join(targetPath, 'README.md'), doc)
+    writeFile(path.join(targetPath, 'README.md'), doc + eol + readme_md)
   }
 
   // gitignore

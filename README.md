@@ -40,11 +40,12 @@ npm run start
 * ejs
 * no-engine
 
-### need gitignore
+### need .gitignore ?
 
 * Y
 * N
-### need README.MD
+
+### need README.MD ?
 
 * Y
 * N
