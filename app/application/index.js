@@ -32,7 +32,7 @@ class Application extends Koa{
   }
 
   /**
-   * 初始化需要最开始加载的自定义中间件
+   * Initialize the middleware should be load before others
    * @param app
    */
   beforeAll (app){
@@ -40,11 +40,11 @@ class Application extends Koa{
   }
 
   /**
-   * 初始化需要最后加载的自定义中间件
+   * Initialize the middleware should be load after others
    * @param app
    */
   afterAll (app) {
-    // 启动定时任务
+    // start schedules
     initSchedule(app)
   }
 

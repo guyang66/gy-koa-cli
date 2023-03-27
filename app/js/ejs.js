@@ -1,4 +1,3 @@
-  // ejs模板引擎
   const views = require('koa-views');
   const tdk = {
     title: 'appName',
@@ -9,7 +8,7 @@
     extension: 'ejs',
     async: true
   }))
-  // 页面公共数据
+  // insert the common data in this place
   app.use(async (ctx,next)=>{
     ctx.state = {
       tdk: tdk,

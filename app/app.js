@@ -1,7 +1,6 @@
 const Application = require('./application');
-
-// 创建实例
+// create the instance
 const app = new Application();
 
-// 启动实例
+// start the application instance at port 8090(default)
 app.start(app.$config.port || 8090);

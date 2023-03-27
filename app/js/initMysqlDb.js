@@ -4,20 +4,19 @@ function initDataBase(app) {
   const { commonLogger, errorLogger, dbLogger } = app.$log4
   const config = app.$config.mysql
   if(!config.user || config.user === ''){
-    console.log(chalk.red('数据库配置项不存在，请先在【config.json】中设置mysql配置项！'))
-    // throw new Error('数据库配置项不存在，请先在【config.json】中设置mysql配置项！')
+    console.log(chalk.red('need database config items，please set the「config.json-> mysql」！'))
   }
   const sequelize = new Sequelize(config.database, config.user, config.password,{
-    host: config.host,    //数据库地址,默认本机
+    host: config.host,
     port: config.port,
     dialect: 'mysql',
-    pool: {   //连接池设置
-      max: 5, //最大连接数
-      min: 0, //最小连接数
+    pool: {
+      max: 5,
+      min: 0,
       idle: 10000
     },
     logging: function (sql) {
-      // 输出到日志中
+      // sql log
       if(process.env.NODE_ENV === 'development'){
         dbLogger.info(sql)
       }

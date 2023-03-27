@@ -3,25 +3,24 @@ const log4js = require('koa-log4')
 const config = require('../config.json')
 const isPrd = process.env.NODE_ENV === 'production'
 const rootPath = isPrd ? config.log.prdRootPath : config.log.rootPath
-
 log4js.configure({
   appenders: {
     error:{
       type: 'dateFile',
-      pattern: '-yyyy-MM-dd.log', //生成文件的规则
-      filename: path.join(`${rootPath}`, 'error.log'), //生成文件名
+      pattern: '-yyyy-MM-dd.log',
+      filename: path.join(`${rootPath}`, 'error.log'),
       backups: 30,
     },
     common: {
       type: 'file',
-      filename: path.join(`${rootPath}`, 'common.log'), //生成文件名
-      maxLogSize: 10485760 * 10, // 100mb,日志文件大小,超过该size则自动创建新的日志文件
+      filename: path.join(`${rootPath}`, 'common.log'),
+      maxLogSize: 10485760 * 10,
       backups: 5,
     },
     db: {
       type: 'dateFile',
-      pattern: '-yyyy-MM-dd.log', //生成文件的规则
-      filename: path.join(`${rootPath}`, 'db.log'), //生成文件名
+      pattern: '-yyyy-MM-dd.log',
+      filename: path.join(`${rootPath}`, 'db.log'),
       backups: 30,
     },
     out: {
@@ -40,7 +39,7 @@ log4js.configure({
     },
     db: {
       appenders: ['db'],
-      level: isPrd ? 'off' : 'all' // 生产环境默认关闭
+      level: isPrd ? 'off' : 'all' // we should close the database sql log at prd env
     },
   }
 });

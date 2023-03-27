@@ -20,8 +20,7 @@ function initDataBase(app) {
   const config = app.$config
   let dbConfig = config.mongodb
   if(!dbConfig.user || dbConfig.user === ''){
-    console.log(chalk.red('数据库配置项不存在，请先在【config.json】中设置mongodb配置项！'))
-    // throw new Error('数据库配置项不存在，请先在【config.json】中设置mongodb配置项！')
+    console.log(chalk.red('need database config items，please set the「config.json-> mongodb」！'))
   }
   const uri = 'mongodb://' + `${dbConfig.user}` + ':' + `${encodeURIComponent(dbConfig.pass)}` + '@' + `${dbConfig.servername}`  + ':' + `${dbConfig.port}` + '/' + `${dbConfig.database}`
   let url = uri + '?gssapiServiceName=mongodb'
@@ -29,8 +28,8 @@ function initDataBase(app) {
   let db = mongoose.connection
 
   db.on('error', (error)=>{
-    errorLogger.error('数据库连接失败！' + error)
-    console.log(chalk.red('数据库连接失败！' + error));
+    errorLogger.error('mongoDB Connection fail！' + error)
+    console.log(chalk.red('mongoDB Connection fail！' + error));
   });
   db.once('open', ()=> {
     commonLogger.info("============== mongoDB Connection successfully. =================");

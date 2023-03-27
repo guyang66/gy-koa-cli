@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const program = require('commander');
 const mkdirp = require('mkdirp')
 const inquirer = require('inquirer')
@@ -11,16 +10,17 @@ const pkg = require('../package.json');
 const { spawn } = require('child_process')
 const version = pkg.version
 const eol = os.EOL;
+
 program
   .version(version)
   .usage('[options] [dir]')
   .parse(process.argv)
-// 执行
+
 main();
 
 async function main () {
-  // 创建主目录
   let targetPath = program.args.shift()
+
   if(!targetPath){
     // 提示输入appName
     let p1 = await inquirer.prompt([
@@ -34,7 +34,7 @@ async function main () {
   }
 
   if(getFileStat(targetPath)){
-    console.log(targetPath, chalk.red('目标目录已经存在文件，无法继续创建，请尝试更换目录或应用名称！'))
+    console.log(targetPath, chalk.red('target directory already exists！please try other directory'))
     return
   }
 
@@ -96,55 +96,55 @@ async function main () {
 }
 
 async function create ({appName, targetPath, database, template, gitignore, readme}) {
-  // 创建应用目录
+  // create application path
   await createDirectory(targetPath)
-  // 创建 app.js
+  // create app.js
   let appjs =  loadFile('app.js')
   writeFile(path.join(targetPath, 'app.js'), appjs)
 
-  // 创建 application
+  // create application dir
   await createDirectory(path.join(targetPath, 'application'))
   let application_index = loadFile('application/index.js')
   let application_loader = loadFile('application/loader.js')
 
-  // 创建 base目录
+  // create base dir
   await createDirectory(path.join(targetPath, 'base'))
   let bass_class = loadFile('base/BaseClass.js')
   writeFile(path.join(targetPath, 'base/BaseClass.js'), bass_class)
   let map_class = loadFile('base/MapClass.js')
   writeFile(path.join(targetPath, 'base/MapClass.js'), map_class)
 
-  // 创建 controller目录
+  // create controller dir
   await createDirectory(path.join(targetPath, 'controller'))
   let userController = loadFile('controller/UserController.js')
   writeFile(path.join(targetPath, 'controller/UserController.js'), userController)
 
-  // 创建 server目录
+  // create server dir
   await createDirectory(path.join(targetPath, 'service'))
   let userService = loadFile('service/UserService.js')
   writeFile(path.join(targetPath, 'service/UserService.js'), userService)
 
-  // 创建 common目录
+  // create common dir
   await createDirectory(path.join(targetPath, 'common'))
   let log4 = loadFile('common/log4.js')
   writeFile(path.join(targetPath, 'common/log4.js'), log4)
 
-  // 创建 extends目录
+  // create extends dir
   await createDirectory(path.join(targetPath, 'extends'))
   let helper = loadFile('extends/helper.js')
   writeFile(path.join(targetPath, 'extends/helper.js'), helper)
 
-  // 创建 middleware目录
+  // create middleware dir
   await createDirectory(path.join(targetPath, 'middleware'))
   let middleware = loadFile('middleware/middleware.js')
   writeFile(path.join(targetPath, 'middleware/middleware.js'), middleware)
 
-  // 创建 routes目录
+  // create routes dir
   await createDirectory(path.join(targetPath, 'routes'))
   let routes = loadFile('routes/index.js')
   writeFile(path.join(targetPath, 'routes/index.js'), routes)
 
-  // 创建 schedule目录
+  // create schedule dir
   await createDirectory(path.join(targetPath, 'schedule'))
   let schedule = loadFile('schedule/schedule.js')
   writeFile(path.join(targetPath, 'schedule/schedule.js'), schedule)
@@ -193,7 +193,7 @@ async function create ({appName, targetPath, database, template, gitignore, read
     }
   }
 
-  // 创建model
+  // create model dir
   await createDirectory(path.join(targetPath, 'model'))
   if(database === 'mongodb'){
     let baseModel = loadFile('model/mongoBaseModel.js')
@@ -201,7 +201,6 @@ async function create ({appName, targetPath, database, template, gitignore, read
     writeFile(path.join(targetPath, 'model/base.js'), baseModel)
     writeFile(path.join(targetPath, 'model/user.js'), userModel)
 
-    //
     let initModel = loadFile('js/initMongoModel.js')
     application_loader = application_loader.replace('{initModel}', eol + initModel)
 
@@ -210,10 +209,9 @@ async function create ({appName, targetPath, database, template, gitignore, read
     application_loader = application_loader.replace('{exportdb}', eol + '  initModel,' + eol + '  initDataBase,')
     application_index = application_index.replace('{db}', eol + '  initModel,' + eol + '  initDataBase,')
     application_index = application_index.replace('{initdb}', eol + '    initDataBase(this)' + eol + '    initModel(this)')
-    // 添加依赖
+    // add dependencies
     targetPkg.dependencies["mongoose"] = "^5.7.5"
-
-    // 添加配置项
+    // add project configs
     config_json.mongodb = {
       "servername": "localhost",
       "database": "test",
@@ -225,7 +223,6 @@ async function create ({appName, targetPath, database, template, gitignore, read
     let userModel = loadFile('model/mysqlUserModel.js')
     writeFile(path.join(targetPath, 'model/user.js'), userModel)
 
-    // initModel
     let initModel = loadFile('js/initMysqlModel.js')
     application_loader = application_loader.replace('{initModel}', eol + initModel)
 
@@ -235,10 +232,12 @@ async function create ({appName, targetPath, database, template, gitignore, read
 
     application_index = application_index.replace('{db}', eol + '  initModel,' + eol + '  initDataBase,')
     application_index = application_index.replace('{initdb}', eol + '    initDataBase(this)' + eol + '    initModel(this)')
-    // 添加依赖
+
+    // add dependencies
     targetPkg.dependencies["mysql2"] = "^2.3.3"
     targetPkg.dependencies["sequelize"] = "^6.19.0"
-    // 添加配置项
+
+    // add project configs
     config_json.mysql = {
       "host": "localhost",
       "port": 3306,
@@ -261,16 +260,16 @@ async function create ({appName, targetPath, database, template, gitignore, read
     let pageController = loadFile('controller/PageController.js')
     writeFile(path.join(targetPath, 'controller/PageController.js'), pageController)
 
-    // 创view目录
+    // create view directory
     await createDirectory(path.join(targetPath, 'views'))
     let page_view = loadFile('views/index.ejs')
     writeFile(path.join(targetPath, 'views/index.ejs'), page_view)
 
-    // 路由
+    // page router
     let routes_page = loadFile('routes/page.js')
     writeFile(path.join(targetPath, 'routes/page.js'), routes_page)
 
-    // initModel
+    // init ejs
     let initEjs = loadFile('js/ejs.js')
     initEjs = initEjs.replace('appName', appName)
     application_loader = application_loader.replace('{ejs}', initEjs)
